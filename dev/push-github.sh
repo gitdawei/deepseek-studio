@@ -17,7 +17,8 @@ REMOTE="git@github.com:${TARGET}.git"
 
 echo "▶ 目标仓库：$TARGET"
 
-if ! git ls-remote --exit-code "$REMOTE" >/dev/null 2>&1; then
+# 注意：不能用 --exit-code —— 空仓库没有任何 ref，它会返回非 0 造成误判
+if ! git ls-remote "$REMOTE" >/dev/null 2>&1; then
   echo
   echo "仓库不存在或无权访问：$REMOTE"
   echo "请先去 https://github.com/new 建一个空仓库（名字：${TARGET#*/}），不要勾任何初始化文件。"
