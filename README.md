@@ -4,7 +4,7 @@
 联网搜索、深度思考搜索、文件解析、阅读链接、模型内容安全、语音输入与朗读，
 全部走官方 API；界面按官方文档的内容块语义逐块渲染，并额外做了跨轮次的可溯源面板。
 
-**线上地址**：https://deepseek-studio.netlify.app （纯静态托管，打开后填自己的 API Key 即可用）
+**线上地址**：https://gitdawei.github.io/deepseek-studio/ （GitHub Pages，纯静态，打开后填自己的 API Key 即可用）
 
 ![预览](docs/preview.png)
 
@@ -109,10 +109,17 @@ npm run build     # 产出 dist/，并写入 config.js 指向 api.deepseek.com
 
 | 目标 | 做法 |
 | --- | --- |
-| **Netlify**（当前） | `netlify deploy --prod --dir=dist`，配置见 `netlify.toml` |
+| **GitHub Pages**（当前） | `./dev/push-github.sh gitdawei/deepseek-studio` |
+| Cloudflare Pages | `./dev/deploy-cf.sh`（需 API Token 或先 `wrangler login`） |
 | Vercel | `vercel --prod`，Framework 选 Other，Output Directory 填 `dist` |
-| Cloudflare Pages | `npx wrangler pages deploy dist` |
-| GitHub Pages | 把 `dist/` 推到 `gh-pages` 分支 |
+| Netlify | `netlify deploy --prod --dir=dist`，配置见 `netlify.toml` |
+
+`push-github.sh` 会把源码推到 `main`、把构建产物推到 `gh-pages`，并带一个
+`.nojekyll`（否则 Jekyll 会吞掉 `_` 开头的文件）。
+
+> **子路径托管的坑**：GitHub Pages 项目站挂在 `/<repo>/` 下，所有资源必须用
+> **相对路径**（`app.js` 而不是 `/app.js`），否则脚本全部 404、页面白屏。
+> 这个问题只有在部署完之后才暴露，已在 `index.html` 与 `build.mjs` 中修正。
 
 两种运行模式前端自动识别，同一份代码不用改：
 
