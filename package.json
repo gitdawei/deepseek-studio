@@ -1,0 +1,20 @@
+{
+  "name": "deepseek-studio",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "DeepSeek 全家桶应用 API 工作台：联网搜索、深度思考搜索、文件解析、阅读链接、语音与内容安全",
+  "scripts": {
+    "start": "node server.mjs",
+    "dev": "node server.mjs",
+    "build": "node build.mjs",
+    "deploy": "node build.mjs && netlify deploy --prod --dir=dist",
+    "mock": "node dev/mock-api.mjs",
+    "verify": "node dev/drive.mjs",
+    "smoke": "node dev/smoke.mjs"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "dependencies": {}
+}

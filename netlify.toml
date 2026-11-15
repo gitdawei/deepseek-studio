@@ -1,0 +1,28 @@
+# Netlify 部署配置
+# 线上站点：https://deepseek-studio.netlify.app
+#
+# 这是一个纯静态 SPA：没有 Functions，没有代理。
+# 前端由 config.js 指向 https://api.deepseek.com 直连（DeepSeek 的 CORS 已放行
+# authorization / x-api-key / anthropic-beta），API Key 只存在访客本机 localStorage。
+
+[build]
+  command = "node build.mjs"
+  publish = "dist"
+
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Content-Type-Options = "nosniff"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+    X-Frame-Options = "SAMEORIGIN"
+
+# 静态资源可长缓存；入口文件保持新鲜
+[[headers]]
+  for = "/app.js"
+  [headers.values]
+    Cache-Control = "public, max-age=0, must-revalidate"
+
+[[headers]]
+  for = "/config.js"
+  [headers.values]
+    Cache-Control = "public, max-age=0, must-revalidate"
