@@ -41,7 +41,8 @@ await fs.writeFile(
 // 把 config.js 插到 app.js 之前
 const indexPath = path.join(OUT, 'index.html');
 let html = await fs.readFile(indexPath, 'utf8');
-html = html.replace('<script src="/app.js"></script>', '<script src="/config.js"></script>\n<script src="/app.js"></script>');
+// 用相对路径：GitHub Pages 项目站挂在 /<repo>/ 子路径下，绝对路径会 404
+html = html.replace('<script src="app.js"></script>', '<script src="config.js"></script>\n<script src="app.js"></script>');
 await fs.writeFile(indexPath, html);
 
 const files = await fs.readdir(OUT);
